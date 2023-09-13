@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Űrlap elemek</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="form.css">
+</head>
+
+<body>
+    <section class="container">
+        <h1 style="text-align:center">Űrlap elemek</h1>
+        <div class="form-content">
+            <form class="form" id="registrationForm">
+                <h2>Regisztráció</h2>
+                <p>Teljes név</p>
+                <input type="text" class="name" />
+                <div class="error"></div>
+                <p>Leírás</p>
+                <textarea class="description"></textarea>
+                <div class="error"></div>
+                <p>Milyen idős?</p>
+                <div class="radio">
+                    <input type="radio" class="radiobutton" name="ageGroup" value="18-24">
+                    <p>18-24</p>
+                </div>
+                <div class="radio">
+                    <input type="radio" class="radiobutton" name="ageGroup" value="24-30">
+                    <p>24-30</p>
+                </div>
+                <div class="radio">
+                    <input type="radio" class="radiobutton" name="ageGroup" value="30-">
+                    <p>30-</p>
+                </div>
+                <div class="error"></div>
+                <p>Válasszon egy színt</p>
+                <input type="color" class="color" />
+                <div class="error"></div>
+                <p>Születési dátum</p>
+                <input type="date" class="date" />
+                <div class="error"></div>
+                <div class="check">
+                    <input type="checkbox" class="checkbox" id="acceptTerms" name="acceptTerms" value="true">
+                    <label for="acceptTerms">Elfogadom a feltételeket</label>
+                </div>
+                <div class="error"></div>
+                <button type="submit">Regisztráció</button>
+            </form>
+        </div>
+    </section>
+    <script>
+        const form = document.getElementById('registrationForm');
+        const name = document.querySelector('.name');
+        const description = document.querySelector('.description');
+        const radioButtons = document.getElementsByName('ageGroup');
+        const color = document.querySelector('.color');
+        const date = document.querySelector('.date');
+        const checkbox = document.querySelector('.checkbox');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            validateInputs();
+        });
+
+        const setError = (element, message) => {
+            const errorDisplay = element.nextElementSibling;
+            errorDisplay.innerText = message;
+            errorDisplay.style.color = 'red';
+        };
+
+        const setSuccess = element => {
+            const errorDisplay = element.nextElementSibling;
+            errorDisplay.innerText = '';
+        };
+
+        const validateInputs = () => {
+            const nameValue = name.value.trim();
+            const descriptionValue = description.value.trim();
+            const colorValue = color.value.trim();
+            const dateValue = date.value.trim();
+            const checkboxValue = checkbox.checked;
+            const radioChecked = Array.from(radioButtons).some(rb => rb.checked);
+
+            if (nameValue === '') {
+                setError(name, 'Nincs megadva név');
+            } else {
+                setSuccess(name);
+            }
+
+            if (descriptionValue === '') {
+                setError(description, 'Nincs megadva leírás');
+            } else {
+                setSuccess(description);
+            }
+
+            if (!radioChecked) {
+                setError(radioButtons[0], 'Nincs megadva életkor.');
+            } else {
+                for (let i = 0; i < radioButtons.length; i++) {
+                    setSuccess(radioButtons[i]);
+                }
+            }
+
+            if (colorValue === '') {
+                setError(color, 'Nincs kiválasztva szín');
+            } else {
+                setSuccess(color);
+            }
+
+            if (dateValue === "") {
+                setError(date, 'Nincs kiválasztva dátum.');
+            } else {
+                setSuccess(date);
+            }
+
+            if (!checkboxValue) {
+                setError(checkbox, 'Nincs bepipálva az elfogadom a feltételeket mező.');
+            } else {
+                setSuccess(checkbox);
+            }
+            if (
+                nameValue &&
+                descriptionValue &&
+                radioChecked &&
+                colorValue &&
+                dateValue &&
+                checkboxValue
+            ) {
+                alert('Sikeres regisztráció');
+            }
+        };
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    background:#213555;
+    color:#fff;
+}
+h1,h2,h3.h4,h5,h6 {
+    color:#E5D283;
+}
+h1 {
+    margin-bottom:3rem;
+}

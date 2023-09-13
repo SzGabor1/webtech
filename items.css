@@ -1,0 +1,24 @@
+#kepek {
+    text-align: center;
+    margin:3rem 0rem;
+}
+.picture-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap:2rem;
+}
+.picture-box img {
+    max-width: 100%;
+    width:250px;
+    height: 250px;
+    background-size: cover;
+}
+.picture-box {
+    transition: .3s;
+}
+.picture-box:hover {
+    transition: .3s;
+    transform: scale(1.1);
+    cursor: pointer;
+}
