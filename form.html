@@ -22,6 +22,7 @@
                 <textarea class="description"></textarea>
                 <div class="error"></div>
                 <p>Milyen idős?</p>
+                <p class="radioerror" style="color: red"></p>
                 <div class="radio">
                     <input type="radio" class="radiobutton" name="ageGroup" value="18-24">
                     <p>18-24</p>
@@ -33,6 +34,7 @@
                 <div class="radio">
                     <input type="radio" class="radiobutton" name="ageGroup" value="30-">
                     <p>30-</p>
+                    <br>
                 </div>
                 <div class="error"></div>
                 <p>Válasszon egy színt</p>
@@ -70,10 +72,21 @@
             errorDisplay.style.color = 'red';
         };
 
-        const setSuccess = element => {
+        const setSuccess = (element, message) => {
             const errorDisplay = element.nextElementSibling;
-            errorDisplay.innerText = '';
+            if (element.tagName === 'INPUT' && element.type === 'radio') {
+                errorDisplay.innerText = message;
+                document.querySelector('.radioerror').innerText = '';
+            } else if (element.tagName === 'INPUT' && element.type === 'checkbox') {
+                errorDisplay.innerText = message;
+                errorDisplay.style.color = 'black';
+                
+            } else {
+                errorDisplay.innerText = '';
+            }
         };
+        
+        
 
         const validateInputs = () => {
             const nameValue = name.value.trim();
@@ -96,10 +109,18 @@
             }
 
             if (!radioChecked) {
-                setError(radioButtons[0], 'Nincs megadva életkor.');
+                document.querySelector('.radioerror').innerText = 'Nincs kiválasztva életkor';
             } else {
                 for (let i = 0; i < radioButtons.length; i++) {
-                    setSuccess(radioButtons[i]);
+                    if (radioButtons[i].checked) {
+                        if (i === 0) {
+                            setSuccess(radioButtons[i], '18-24');
+                        } else if (i === 1) {
+                            setSuccess(radioButtons[i], '25-30');
+                        } else if (i === 2) {
+                            setSuccess(radioButtons[i], '30-');
+                        }
+                    }
                 }
             }
 
@@ -118,7 +139,7 @@
             if (!checkboxValue) {
                 setError(checkbox, 'Nincs bepipálva az elfogadom a feltételeket mező.');
             } else {
-                setSuccess(checkbox);
+                setSuccess(checkbox, 'Elfogadom a feltételeket');
             }
             if (
                 nameValue &&
